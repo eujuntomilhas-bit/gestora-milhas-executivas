@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestora de Milhas Executivas™</title>
+  <title>Rosana Pestana · Gestora de Milhas Executivas™</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gabriela&family=Caveat:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -54,10 +54,9 @@
     }
 
     header p {
-      font-size: 0.92rem;
-      color: #7a9a7e;
       font-family: 'Caveat', cursive;
       font-size: 1.1rem;
+      color: #7a9a7e;
     }
 
     .fases { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 32px; }
@@ -73,6 +72,19 @@
     }
 
     .fase-titulo::after { content: ''; flex: 1; height: 1px; background: rgba(217,122,58,0.25); }
+
+    .apoio-titulo {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      color: var(--verde-musgo);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.7;
+    }
+
+    .apoio-titulo::after { content: ''; flex: 1; height: 1px; background: rgba(79,111,82,0.2); }
 
     .aulas { display: flex; flex-direction: column; gap: 12px; }
 
@@ -135,19 +147,19 @@
       vertical-align: middle;
     }
 
-    /* Materiais de apoio */
-    .apoio-titulo {
-      font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
-      color: var(--verde-musgo);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0.7;
+    .pill-novo {
+      display: inline-block;
+      background: rgba(217,122,58,0.15);
+      color: var(--terracota);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-left: 8px;
+      vertical-align: middle;
     }
-
-    .apoio-titulo::after { content: ''; flex: 1; height: 1px; background: rgba(79,111,82,0.2); }
 
     footer {
       margin-top: 56px;
@@ -163,18 +175,44 @@
 
   <header>
     <div class="tag">Programa Gestora de Milhas Executivas™</div>
-    <h1>Material das Aulas</h1>
+    <h1>Rosana Pestana</h1>
     <p>by Bruna Araújo · @eujuntomilhas</p>
   </header>
 
   <div class="fases">
+
+    <!-- ACOMPANHAMENTO -->
+    <div>
+      <div class="fase-titulo">Meu Acompanhamento</div>
+      <div class="aulas">
+
+        <a class="aula" href="checklist.html">
+          <div class="aula-info">
+            <div class="aula-num">Tarefas <span class="pill-novo">Novo</span></div>
+            <div class="aula-titulo">Checklist de Próximos Passos</div>
+            <div class="aula-desc">Cadastros · ações imediatas · coleta com Leonardo · reunião 27/05</div>
+          </div>
+          <div class="aula-arrow">→</div>
+        </a>
+
+        <a class="aula" href="resumo.html">
+          <div class="aula-info">
+            <div class="aula-num">Resumo · Aula 19/05/2026</div>
+            <div class="aula-titulo">O que vimos na última reunião</div>
+            <div class="aula-desc">Executivo Leonardo · decisões · conceitos · oportunidades identificadas</div>
+          </div>
+          <div class="aula-arrow">→</div>
+        </a>
+
+      </div>
+    </div>
 
     <!-- FASE 1 -->
     <div>
       <div class="fase-titulo">Fase 1 — Fundação</div>
       <div class="aulas">
 
-        <a class="aula" href="preview_aula01.html">
+        <a class="aula" href="../../preview_aula01.html">
           <div class="aula-info">
             <div class="aula-num">Aula 1</div>
             <div class="aula-titulo">Ecossistema de Milhas</div>
@@ -183,7 +221,7 @@
           <div class="aula-arrow">→</div>
         </a>
 
-        <a class="aula" href="02 - Planos de Aula/Fase 1 - Fundacao/AULA_02_Como_Acumular_Slides.html">
+        <a class="aula" href="../../02 - Planos de Aula/Fase 1 - Fundacao/AULA_02_Como_Acumular_Slides.html">
           <div class="aula-info">
             <div class="aula-num">Aula 2</div>
             <div class="aula-titulo">Como Acumular Milhas e Pontos</div>
@@ -278,27 +316,12 @@
     <div>
       <div class="apoio-titulo">Materiais de Apoio</div>
       <div class="aulas">
-        <a class="aula" href="03 - Templates e Ferramentas/GUIA_Cadastro_Programas_de_Fidelidade.html">
+
+        <a class="aula" href="../../03 - Templates e Ferramentas/GUIA_Cadastro_Programas_de_Fidelidade.html">
           <div class="aula-info">
             <div class="aula-num">Guia</div>
             <div class="aula-titulo">Cadastro nos Programas de Fidelidade</div>
             <div class="aula-desc">Links diretos para cadastro em 16 programas nacionais e internacionais</div>
-          </div>
-          <div class="aula-arrow">→</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- ACOMPANHAMENTO DAS ALUNAS -->
-    <div>
-      <div class="apoio-titulo">Acompanhamento das Alunas</div>
-      <div class="aulas">
-
-        <a class="aula" href="alunas/rosana/index.html">
-          <div class="aula-info">
-            <div class="aula-num">Aluna</div>
-            <div class="aula-titulo">Rosana Pestana</div>
-            <div class="aula-desc">Aulas · checklist · resumos de reunião · materiais de apoio</div>
           </div>
           <div class="aula-arrow">→</div>
         </a>
