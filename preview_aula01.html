@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 1 — Ecossistema de Milhas | Gestora de Milhas Executivas™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gabriela&family=Caveat:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde-musgo:  #4F6F52;
+      --verde-salvia: #8FAF9A;
+      --terracota:    #D97A3A;
+      --ambar:        #E6A15A;
+      --offwhite:     #F4F1EC;
+      --texto:        #1e1e1e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--offwhite);
+      color: var(--texto);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--verde-musgo);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      font-family: 'Gabriela', serif;
+      color: var(--offwhite);
+      font-size: 1rem;
+    }
+
+    .logo span {
+      font-family: 'Caveat', cursive;
+      color: var(--ambar);
+      font-size: 1.15rem;
+    }
+
+    /* ── FASES NAV ── */
+    .fases-nav {
+      background-color: #3d5940;
+      display: flex;
+      justify-content: center;
+      border-bottom: 3px solid rgba(0,0,0,0.15);
+    }
+
+    .fase-tab {
+      padding: 0.7rem 2rem;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: rgba(244, 241, 236, 0.5);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      transition: all 0.2s;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .fase-tab.ativa {
+      color: var(--offwhite);
+      border-bottom: 3px solid var(--terracota);
+    }
+
+    .fase-tab:hover:not(.ativa) { color: rgba(244,241,236,0.85); }
+
+    /* ── DEMANDA DA AULA ── */
+    .demanda-banner {
+      background: #1e2e20;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .demanda-icone { font-size: 1.5rem; margin-top: 0.1rem; flex-shrink: 0; }
+
+    .demanda-label {
+      font-family: 'Caveat', cursive;
+      color: var(--ambar);
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .demanda-texto p {
+      color: var(--offwhite);
+      font-size: 0.93rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ── VOO CARD ── */
+    .voo-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .voo-card-header {
+      background: #1b3a6b;
+      color: white;
+      padding: 0.6rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .voo-localizador {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--ambar);
+    }
+
+    .voo-card-header span {
+      font-size: 0.8rem;
+      font-weight: 700;
+      opacity: 0.85;
+      letter-spacing: 0.05em;
+    }
+
+    .voo-tabela { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+    .voo-tabela thead { background: #2d5a9e; color: white; }
+
+    .voo-tabela thead th {
+      padding: 0.6rem 0.85rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+    }
+
+    .voo-tabela tbody tr:nth-child(even) { background: #f0f4fb; }
+    .voo-tabela tbody tr:hover { background: #dce8ff; }
+
+    .voo-tabela tbody td {
+      padding: 0.65rem 0.85rem;
+      color: #1a1a2e;
+      font-weight: 500;
+      border-bottom: 1px solid #e8edf5;
+      line-height: 1.4;
+    }
+
+    .voo-num {
+      font-weight: 700;
+      color: #1b3a6b;
+    }
+
+    .voo-tarifa {
+      background: #fff8f0;
+      border-top: 2px solid #e8c99a;
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+    }
+
+    .voo-tarifa-item {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #4a3010;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .voo-tarifa-item.alerta { color: #a03010; font-weight: 700; }
+
+    .voo-tarifa-preco {
+      font-family: 'Gabriela', serif;
+      font-size: 1.05rem;
+      color: #1b3a6b;
+      font-weight: 700;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background-color: var(--terracota);
+      padding: 3rem 2rem 2.5rem;
+    }
+
+    .fase-tag {
+      font-family: 'Caveat', cursive;
+      color: rgba(255,255,255,0.85);
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .hero h1 {
+      font-family: 'Gabriela', serif;
+      color: var(--offwhite);
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.15;
+    }
+
+    .hero-meta {
+      margin-top: 1.75rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+
+    .meta-label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      color: var(--offwhite);
+      font-weight: 500;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .section { margin-bottom: 3.5rem; }
+
+    .section-title {
+      font-family: 'Gabriela', serif;
+      color: var(--verde-musgo);
+      font-size: 1.55rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--verde-salvia);
+    }
+
+    /* ── OBJETIVOS ── */
+    .objetivos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1rem;
+    }
+
+    .objetivo-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      border-left: 4px solid var(--verde-musgo);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .objetivo-nivel {
+      font-family: 'Caveat', cursive;
+      color: var(--terracota);
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .objetivo-card p {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--texto);
+      line-height: 1.5;
+    }
+
+    /* ── SUBTÍTULO DE GRUPO ── */
+    .grupo-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      color: var(--terracota);
+      margin: 1.75rem 0 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .grupo-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(217, 122, 58, 0.25);
+    }
+
+    /* ── PROGRAMAS VISUAL ── */
+    .programas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 1rem;
+    }
+
+    .programa-card {
+      border-radius: 14px;
+      padding: 1.4rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .programa-card.latam  { background: #1b3a6b; }
+    .programa-card.smiles { background: #e07000; }
+    .programa-card.azul   { background: #1c4da1; }
+    .programa-card.livelo { background: #7b2d8b; }
+    .programa-card.esfera { background: #c8a000; }
+
+    .programa-emoji { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+
+    .programa-nome {
+      font-family: 'Gabriela', serif;
+      color: white;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .programa-moeda {
+      font-family: 'Caveat', cursive;
+      color: rgba(255,255,255,0.78);
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .programa-desc {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.4;
+    }
+
+    /* ── TABELA GENÉRICA ── */
+    .tabela-wrapper { overflow-x: auto; margin-top: 1.25rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+
+    thead { background-color: var(--verde-musgo); color: white; }
+
+    thead th {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+
+    tbody tr:nth-child(even) { background-color: rgba(143,175,154,0.12); }
+    tbody tr:hover { background-color: rgba(143,175,154,0.22); }
+
+    tbody td {
+      padding: 0.8rem 1rem;
+      color: #222;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      line-height: 1.4;
+    }
+
+    /* ── BLOCOS DE ROTEIRO ── */
+    .bloco {
+      background: white;
+      border-radius: 14px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .bloco-header {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .bloco-numero {
+      background-color: var(--verde-musgo);
+      color: white;
+      font-family: 'Gabriela', serif;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .bloco-titulo {
+      font-family: 'Gabriela', serif;
+      color: var(--verde-musgo);
+      font-size: 1.1rem;
+    }
+
+    .bloco-duracao {
+      margin-left: auto;
+      font-family: 'Caveat', cursive;
+      color: var(--ambar);
+      font-size: 1.05rem;
+      background: var(--offwhite);
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+    }
+
+    .bloco ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .bloco ul li {
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding-left: 1.3rem;
+      position: relative;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .bloco ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--verde-salvia);
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background-color: #FFF8F2;
+      border-left: 4px solid var(--terracota);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.25rem;
+      margin-top: 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #4a2e10;
+      line-height: 1.6;
+    }
+
+    .callout strong {
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem;
+      color: var(--terracota);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── GLOSSÁRIO ── */
+    .glossario-busca-wrap {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    #glossario-busca {
+      width: 100%;
+      padding: 0.85rem 1.2rem 0.85rem 3rem;
+      border: 2px solid var(--verde-salvia);
+      border-radius: 50px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      background: white;
+      color: var(--texto);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #glossario-busca:focus { border-color: var(--verde-musgo); }
+
+    .busca-icone {
+      position: absolute;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--verde-salvia);
+      font-size: 1.1rem;
+    }
+
+    .glossario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .glossario-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-top: 3px solid var(--verde-salvia);
+      transition: box-shadow 0.2s;
+    }
+
+    .glossario-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .glossario-card.hidden { display: none; }
+
+    .glossario-termo {
+      font-family: 'Gabriela', serif;
+      color: var(--verde-musgo);
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .glossario-def {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #333;
+      line-height: 1.55;
+      margin-bottom: 0.6rem;
+    }
+
+    .glossario-serve {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: #666;
+      border-top: 1px solid #eee;
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .glossario-serve strong { color: var(--terracota); font-weight: 700; }
+
+    /* ── MISSÃO ── */
+    .missao {
+      background: linear-gradient(135deg, var(--verde-musgo) 0%, #3d5940 100%);
+      border-radius: 16px;
+      padding: 2rem 2.25rem;
+      color: white;
+    }
+
+    .missao-tag {
+      font-family: 'Caveat', cursive;
+      color: var(--ambar);
+      font-size: 1.05rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .missao h3 {
+      font-family: 'Gabriela', serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .missao p {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.65;
+      opacity: 0.93;
+    }
+
+    /* ── NAVEGAÇÃO ── */
+    .nav-aulas {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav-btn-proximo { background-color: var(--terracota); color: white; }
+    .nav-btn-proximo:hover { background-color: #bf6a2a; }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--verde-musgo);
+      color: var(--offwhite);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    footer span {
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem;
+      color: var(--ambar);
+    }
+
+    @media (max-width: 600px) {
+      .fases-nav { overflow-x: auto; }
+      .fase-tab { padding: 0.7rem 1rem; font-size: 0.72rem; white-space: nowrap; }
+      .hero { padding: 2rem 1.25rem; }
+      .container { padding: 2rem 1.25rem 4rem; }
+      .bloco { padding: 1.25rem; }
+      .missao { padding: 1.5rem 1.25rem; }
+      .programas-grid { grid-template-columns: 1fr 1fr; }
+      .voo-tabela { font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Gestora de Milhas Executivas™ <span>by Bruna Araujo</span></div>
+</header>
+
+<!-- FASES NAV -->
+<nav class="fases-nav">
+  <a href="#" class="fase-tab ativa">Fase 1 — Fundação</a>
+  <a href="#" class="fase-tab">Fase 2 — Estratégia</a>
+  <a href="#" class="fase-tab">Fase 3 — Operação</a>
+</nav>
+
+<!-- DEMANDA DA AULA -->
+<div class="demanda-banner">
+  <div class="demanda-icone">✈️</div>
+  <div class="demanda-texto">
+    <span class="demanda-label">caso real trabalhado nesta aula</span>
+    <p>O chefe quer alterar um voo já emitido. Localizador <strong style="color:var(--ambar);font-family:'Caveat',cursive;font-size:1.05rem;">UWTWKU</strong> — vamos analisar juntas as opções de remarcação, cancelamento e o que cada escolha implica em milhas e taxas.</p>
+  </div>
+</div>
+
+<!-- VOO DETALHADO -->
+<div style="background:#1e2e20;padding:0 2rem 1.5rem;">
+  <div class="voo-card">
+    <div class="voo-card-header">
+      <span>LATAM Airlines · Econômica Standard</span>
+      <span class="voo-localizador">Loc: UWTWKU</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="voo-tabela">
+        <thead>
+          <tr>
+            <th>Voo</th>
+            <th>Partida</th>
+            <th>Chegada</th>
+            <th>Saída</th>
+            <th>Chegada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="voo-num">LA 3359</td>
+            <td>SSA — Salvador, BA</td>
+            <td>GRU — Guarulhos, SP</td>
+            <td>ter. 19/mai · 03:05</td>
+            <td>05:35</td>
+          </tr>
+          <tr>
+            <td class="voo-num">LA 8126</td>
+            <td>GRU — Guarulhos, SP</td>
+            <td>MCO — Orlando, FL</td>
+            <td>ter. 19/mai · 08:55</td>
+            <td>16:45</td>
+          </tr>
+          <tr>
+            <td class="voo-num">LA 8187</td>
+            <td>MCO — Orlando, FL</td>
+            <td>GRU — Guarulhos, SP</td>
+            <td>qui. 21/mai · 22:15</td>
+            <td>sex. 22/mai · 07:50</td>
+          </tr>
+          <tr>
+            <td class="voo-num">LA 4722</td>
+            <td>GRU — Guarulhos, SP</td>
+            <td>SSA — Salvador, BA</td>
+            <td>sex. 22/mai · 09:50</td>
+            <td>12:10</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="voo-tarifa">
+      <span class="voo-tarifa-preco">R$ 9.636,40</span>
+      <span class="voo-tarifa-item">🧳 Bolsa ou mochila pequena</span>
+      <span class="voo-tarifa-item">🧳 Bagagem de mão 10 kg</span>
+      <span class="voo-tarifa-item">🧳 1 bagagem despachada 23 kg</span>
+      <span class="voo-tarifa-item alerta">⚠ Remarcação com multa + diferença de preço</span>
+      <span class="voo-tarifa-item alerta">⚠ Não permite reembolso antes do embarque</span>
+      <span class="voo-tarifa-item">❌ Não contempla seleção de assento</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="fase-tag">Fase 1 — Fundação · Semana 1</span>
+  <h1>Aula 1<br>Ecossistema de Milhas</h1>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Duração</span>
+      <span class="meta-value">60–90 min</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Formato</span>
+      <span class="meta-value">Ao vivo · Individual</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Pré-requisito</span>
+      <span class="meta-value">Nenhum</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="container">
+
+  <!-- OBJETIVOS -->
+  <div class="section">
+    <h2 class="section-title">O que você vai aprender</h2>
+    <div class="objetivos-grid">
+      <div class="objetivo-card">
+        <div class="objetivo-nivel">Conhecer</div>
+        <p>Os 5 principais programas do Brasil — e a diferença entre programas de fidelidade e de recompensa</p>
+      </div>
+      <div class="objetivo-card">
+        <div class="objetivo-nivel">Entender</div>
+        <p>O que são milhas, pontos e como cada programa funciona dentro do ecossistema</p>
+      </div>
+      <div class="objetivo-card">
+        <div class="objetivo-nivel">Diferenciar</div>
+        <p>Milhas aéreas de pontos de cartão — e como a transferência conecta os dois mundos</p>
+      </div>
+      <div class="objetivo-card">
+        <div class="objetivo-nivel">Aplicar</div>
+        <p>Analisar um caso real: o voo do chefe que precisa ser alterado — UWTWKU</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OS PROGRAMAS -->
+  <div class="section">
+    <h2 class="section-title">Os Programas que Você Precisa Conhecer</h2>
+
+    <div class="grupo-label">Programas de Fidelidade — das companhias aéreas</div>
+    <div class="programas-grid">
+      <div class="programa-card latam">
+        <span class="programa-emoji">🔵</span>
+        <div class="programa-nome">LATAM Pass</div>
+        <span class="programa-moeda">Pontos LATAM</span>
+        <p class="programa-desc">Maior malha doméstica e internacional do Brasil</p>
+      </div>
+      <div class="programa-card smiles">
+        <span class="programa-emoji">🟠</span>
+        <div class="programa-nome">Smiles</div>
+        <span class="programa-moeda">Smiles</span>
+        <p class="programa-desc">Forte em rotas domésticas · Parceria com Delta (EUA)</p>
+      </div>
+      <div class="programa-card azul">
+        <span class="programa-emoji">✈️</span>
+        <div class="programa-nome">Azul Fidelidade</div>
+        <span class="programa-moeda">Pontos Azul</span>
+        <p class="programa-desc">Exclusivo em cidades do interior sem outra opção</p>
+      </div>
+    </div>
+
+    <div class="grupo-label" style="margin-top:2rem;">Programas de Recompensa — intermediários de pontos</div>
+    <div class="programas-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr));">
+      <div class="programa-card livelo">
+        <span class="programa-emoji">🔄</span>
+        <div class="programa-nome">Livelo</div>
+        <span class="programa-moeda">Pontos Livelo</span>
+        <p class="programa-desc">BB + Bradesco · Transfere para LATAM, Smiles, Azul e outros</p>
+      </div>
+      <div class="programa-card esfera">
+        <span class="programa-emoji">⭐</span>
+        <div class="programa-nome">Esfera</div>
+        <span class="programa-moeda">Pontos Esfera</span>
+        <p class="programa-desc">Santander · Portal de compras e transferência para programas aéreos</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:1.25rem;">
+      <strong>⚠ A diferença que muda tudo</strong>
+      Livelo e Esfera <strong>não emitem voos</strong> — eles são intermediários. Você acumula pontos lá e transfere para o programa aéreo de sua escolha. Os programas de fidelidade (LATAM, Smiles, Azul) são os que de fato emitem a passagem. Entender isso evita erros graves na hora de transferir.
+    </div>
+
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Programa</th>
+            <th>Tipo</th>
+            <th>Principal vantagem</th>
+            <th>Limitação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LATAM Pass</strong></td>
+            <td>Fidelidade</td>
+            <td>Maior cobertura de rotas</td>
+            <td>Preços dinâmicos — variam muito</td>
+          </tr>
+          <tr>
+            <td><strong>Smiles</strong></td>
+            <td>Fidelidade</td>
+            <td>Tabela mais previsível · parceria Delta</td>
+            <td>GOL com rede internacional menor</td>
+          </tr>
+          <tr>
+            <td><strong>Azul Fidelidade</strong></td>
+            <td>Fidelidade</td>
+            <td>Única opção em muitas cidades</td>
+            <td>Rede internacional limitada</td>
+          </tr>
+          <tr>
+            <td><strong>Livelo</strong></td>
+            <td>Recompensa</td>
+            <td>Transfere para vários programas · BB + Bradesco</td>
+            <td>Não emite voos diretamente</td>
+          </tr>
+          <tr>
+            <td><strong>Esfera</strong></td>
+            <td>Recompensa</td>
+            <td>Portal de compras + transferência · Santander</td>
+            <td>Não emite voos diretamente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.85rem;font-weight:500;color:#666;margin-top:1rem;font-style:italic;">
+      Programas internacionais (Aeroplan, Avios, Amex MR, etc.) serão abordados em aulas futuras.
+    </p>
+  </div>
+
+  <!-- ROTEIRO -->
+  <div class="section">
+    <h2 class="section-title">Roteiro da Aula</h2>
+
+    <div class="bloco">
+      <div class="bloco-header">
+        <div class="bloco-numero">✦</div>
+        <div class="bloco-titulo">Abertura — Caso real do chefe</div>
+        <div class="bloco-duracao">15 min</div>
+      </div>
+      <ul>
+        <li>Analisar o voo UWTWKU juntas: o que é a tarifa Standard, o que significa "remarcação com multa"</li>
+        <li>Entender o que a alteração implica — multa + diferença de preço + sem reembolso</li>
+        <li>Definir qual o próximo passo prático para resolver o caso</li>
+      </ul>
+      <div class="callout">
+        <strong>📌 Ponto prático</strong>
+        Antes de qualquer ação neste bilhete: contactar a LATAM para confirmar o valor exato da multa de remarcação e a diferença de tarifa para a nova data desejada. Não confirmar nada sem esses números na mão.
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-header">
+        <div class="bloco-numero">1</div>
+        <div class="bloco-titulo">Por que os programas existem</div>
+        <div class="bloco-duracao">15 min</div>
+      </div>
+      <ul>
+        <li>A lógica das companhias aéreas: fidelidade gera receita recorrente</li>
+        <li>Por que bancos e cartões entram nesse jogo</li>
+        <li>O ciclo completo: <strong>gasto → ponto → milha → voo</strong></li>
+      </ul>
+      <div class="callout">
+        <strong>⚠ Confusão mais comum</strong>
+        "Milhas" e "pontos" não são a mesma coisa. Milhas = moeda das companhias aéreas. Pontos = moeda dos bancos e cartões. A transferência converte um no outro — e ela é irreversível. Nunca transfere sem ter a emissão planejada.
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-header">
+        <div class="bloco-numero">2</div>
+        <div class="bloco-titulo">Os 5 programas — fidelidade e recompensa</div>
+        <div class="bloco-duracao">20 min</div>
+      </div>
+      <ul>
+        <li>LATAM Pass, Smiles, Azul — programas de fidelidade das companhias aéreas nacionais</li>
+        <li>Livelo e Esfera — programas de recompensa de bancos, que transferem para os aéreos</li>
+        <li>Por que Livelo e Esfera nunca emitem voo diretamente — e o que isso significa na prática</li>
+        <li>Programas internacionais existem e serão vistos em aulas futuras</li>
+      </ul>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-header">
+        <div class="bloco-numero">3</div>
+        <div class="bloco-titulo">Milha de avião × Ponto de cartão</div>
+        <div class="bloco-duracao">15 min</div>
+      </div>
+      <ul>
+        <li>O que é razão de transferência — ex: 1 ponto Livelo = 1,2 milha LATAM</li>
+        <li>Como calcular quantas milhas chegam ao programa após a transferência</li>
+        <li>Por que isso impacta diretamente a estratégia de emissão do chefe</li>
+      </ul>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-header">
+        <div class="bloco-numero">✦</div>
+        <div class="bloco-titulo">Fechamento</div>
+        <div class="bloco-duracao">10 min</div>
+      </div>
+      <ul>
+        <li>O que ficou claro? O que ainda gera dúvida?</li>
+        <li>Missão da semana</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MISSÃO -->
+  <div class="section">
+    <h2 class="section-title">Missão da Semana</h2>
+    <div class="missao">
+      <span class="missao-tag">exercício pós-aula</span>
+      <h3>Descubra os programas do seu chefe</h3>
+      <p>Descubra em quais programas de fidelidade o executivo que você atende já tem cadastro e anote o saldo atual de cada um.<br><br>
+      <strong style="color:var(--ambar);">Entrega:</strong> print ou anotação dos saldos para trazer na próxima aula.</p>
+    </div>
+  </div>
+
+  <!-- GLOSSÁRIO -->
+  <div class="section">
+    <h2 class="section-title">Glossário de Termos</h2>
+    <p style="font-size:0.92rem;font-weight:500;color:#555;margin-bottom:1.25rem;">Não precisa decorar tudo. Use como consulta rápida sempre que precisar.</p>
+
+    <div class="glossario-busca-wrap">
+      <span class="busca-icone">🔍</span>
+      <input type="text" id="glossario-busca" placeholder="Buscar termo... ex: stopover, open jaw, sweet spot">
+    </div>
+
+    <div class="glossario-grid" id="glossario-grid">
+
+      <div class="glossario-card" data-termo="open jaw">
+        <div class="glossario-termo">Open Jaw</div>
+        <p class="glossario-def">Quando origem ou destino não são os mesmos na ida e na volta. Ex.: GRU → MAD / ROM → GRU.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> encaixar múltiplas cidades, economizar e aproveitar aeroportos com disponibilidade mais barata.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="circle trip">
+        <div class="glossario-termo">Circle Trip</div>
+        <p class="glossario-def">Roteiro em "círculo" — ida por um caminho, volta por outro. Ex.: GRU → LIS → ROM → CDG → GRU.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> viagens mais completas e maximizar trechos sem pagar mais.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="side trip">
+        <div class="glossario-termo">Side Trip</div>
+        <p class="glossario-def">Trecho separado, pago à parte, para visitar uma cidade extra. Ex.: GRU → LIS (award) + LIS → MAD (pago).</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> encaixar destinos bônus sem comprometer o bilhete principal.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="stopover">
+        <div class="glossario-termo">Stopover</div>
+        <p class="glossario-def">Pausa acima de 24h na cidade de conexão usando o mesmo bilhete.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> visitar 2 destinos no preço de 1 quando o programa permite. Ex.: Aeroplan e TAP.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="layover long layover">
+        <div class="glossario-termo">Layover / Long Layover</div>
+        <p class="glossario-def">Layover = conexão até 24h. Long layover = conexão longa estratégica (6–12h) para conhecer a cidade de passagem.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> "mini-destinos" sem custo extra.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="married segments">
+        <div class="glossario-termo">Married Segments</div>
+        <p class="glossario-def">Trechos que só aparecem disponíveis juntos. Ex.: GIG → GRU → JFK existe, mas GRU → JFK sozinho não aparece.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> entender por que uma busca não mostra resultado e ajustar origem/destino.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="married segment break">
+        <div class="glossario-termo">Married Segment Break</div>
+        <p class="glossario-def">Separar manualmente os trechos para quebrar a regra de married segments e liberar disponibilidade escondida.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> destravar cabines e emitir rotas que não aparecem na busca direta.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="sweet spot">
+        <div class="glossario-termo">Sweet Spot</div>
+        <p class="glossario-def">Oportunidade onde a relação milhas × valor é extremamente vantajosa. Ex.: TAP Europa em executiva, Iberia MAD–MEX por Avios, Qatar Qsuite via Privilege Club.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> economizar 80–90% do valor e montar rota premium pelo preço de econômica.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="blackout dates datas bloqueadas">
+        <div class="glossario-termo">Blackout Dates</div>
+        <p class="glossario-def">Datas bloqueadas para emissão com milhas. Os programas raramente assumem publicamente, mas existem.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> não perder tempo buscando o impossível e antecipar janelas ruins.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="fare buckets classes tarifarias">
+        <div class="glossario-termo">Fare Buckets / Classes Tarifárias</div>
+        <p class="glossario-def">Cada tarifa tem uma letra que determina disponibilidade, upgrade e regras de remarcação nas emissões com milhas.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> detectar se vai abrir vaga e prever o comportamento da rota.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="award fare revenue fare">
+        <div class="glossario-termo">Award Fare vs Revenue Fare</div>
+        <p class="glossario-def">Award fare = bilhete pago com milhas. Revenue = bilhete pago com dinheiro.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> comparar se vale emitir com milhas ou pagar — às vezes o dinheiro é mais vantajoso.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="dynamic pricing precificacao dinamica">
+        <div class="glossario-termo">Dynamic Pricing</div>
+        <p class="glossario-def">Preços de milhas que mudam o tempo todo, sem tabela fixa. Usado por LATAM e Smiles.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> entender janelas de precificação e pegar os "mergulhos" de tarifa.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="tabela fixa">
+        <div class="glossario-termo">Tabela Fixa</div>
+        <p class="glossario-def">Preços previsíveis baseados em distância ou regiões. Usado por Iberia e TAP.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> prever o custo com antecedência e planejar sem surpresas.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="routing rules regras de roteamento">
+        <div class="glossario-termo">Routing Rules</div>
+        <p class="glossario-def">Regras que determinam por onde pode passar, se aceita stopover ou open jaw, e número máximo de conexões.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> evitar montar rotas proibidas e economizar tempo na busca.</p>
+      </div>
+
+      <div class="glossario-card" data-termo="end-on-end">
+        <div class="glossario-termo">End-on-End</div>
+        <p class="glossario-def">Combinação de dois bilhetes separados para formar uma viagem contínua — sem o mesmo código de reserva.</p>
+        <p class="glossario-serve"><strong>Serve para:</strong> montar trajetos especiais quando não existe award direto, com margens seguras entre os voos.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="nav-aulas">
+    <a href="#" class="nav-btn nav-btn-proximo">Aula 2 — Programas e Transferências →</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Gestora de Milhas Executivas™ · <span>by Bruna Araujo</span> · @eujuntomilhas</p>
+</footer>
+
+<script>
+  document.getElementById('glossario-busca').addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    document.querySelectorAll('.glossario-card').forEach(card => {
+      const termo = card.dataset.termo || '';
+      const texto = card.textContent.toLowerCase();
+      card.classList.toggle('hidden', q !== '' && !termo.includes(q) && !texto.includes(q));
+    });
+  });
+</script>
+</body>
+</html>
